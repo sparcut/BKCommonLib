@@ -123,7 +123,8 @@ dependencies {
     // Brigadier is only needed internally by Cloud's implementation and should not be
     // exported as a dependency in the generated Maven POM. Use the shadedImplementation
     // configuration so it's available for shading but not added to published POMs.
-    shadedImplementation(libs.brigadier)
+    // TODO: Brigadier unavailable without Java 25+; temporarily excluded
+    // shadedImplementation(libs.brigadier)
 
     shadedImplementation("org.incendo:cloud-paper")
     shadedImplementation("org.incendo:cloud-annotations")
