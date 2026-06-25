@@ -169,6 +169,34 @@ public class StringUtil {
         return (s == null) ? 1 : s.getWidth();
     }
 
+    /**
+     * Converts an RGB color to a legacy ChatFormatting color, if one exists.
+     *
+     * @param rgb color value
+     * @return matching legacy color format, or null if none matches
+     */
+    public static ChatColor getLegacyChatFormatting(int rgb) {
+        switch (rgb) {
+        case 0x000000: return ChatColor.BLACK;
+        case 0x0000AA: return ChatColor.DARK_BLUE;
+        case 0x00AA00: return ChatColor.DARK_GREEN;
+        case 0x00AAAA: return ChatColor.DARK_AQUA;
+        case 0xAA0000: return ChatColor.DARK_RED;
+        case 0xAA00AA: return ChatColor.DARK_PURPLE;
+        case 0xFFAA00: return ChatColor.GOLD;
+        case 0xAAAAAA: return ChatColor.GRAY;
+        case 0x555555: return ChatColor.DARK_GRAY;
+        case 0x5555FF: return ChatColor.BLUE;
+        case 0x55FF55: return ChatColor.GREEN;
+        case 0x55FFFF: return ChatColor.AQUA;
+        case 0xFF5555: return ChatColor.RED;
+        case 0xFF55FF: return ChatColor.LIGHT_PURPLE;
+        case 0xFFFF55: return ChatColor.YELLOW;
+        case 0xFFFFFF: return ChatColor.WHITE;
+        default: return null;
+        }
+    }
+
     public static int firstIndexOf(String text, char... values) {
         for (int i = 0; i < text.length(); i++) {
             if (LogicUtil.containsChar(text.charAt(i), values)) {

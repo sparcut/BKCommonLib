@@ -171,7 +171,7 @@ import net.minecraft.world.level.storage.TagValueInput;
 
         if (modi.getColor() != null) {
 #if version >= 1.16
-            ChatFormatting color_format = modi.getColor().format;
+            org.bukkit.ChatColor color_format = com.bergerkiller.bukkit.common.utils.StringUtil.getLegacyChatFormatting(modi.getColor().getValue());
 #else
             ChatFormatting color_format = modi.getColor();
 #endif
@@ -184,7 +184,7 @@ import net.minecraft.world.level.storage.TagValueInput;
             }
 
 #if version >= 1.16
-            ChatFormatting color_format = modi.getColor().format;
+            org.bukkit.ChatColor color_format = com.bergerkiller.bukkit.common.utils.StringUtil.getLegacyChatFormatting(modi.getColor().getValue());
             if (color_format == null) {
                 // Get color RGB value
   #if version >= 1.17
