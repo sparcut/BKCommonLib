@@ -124,10 +124,10 @@ public class AdvancementDataPlayerHook extends ClassHook<AdvancementDataPlayerHo
 
             // On modern versions all 'critereons' use a main abstract class to track per-player progress in
             if (CommonBootstrap.evaluateMCVersion(">=", "1.15")) {
-                if (CommonBootstrap.evaluateMCVersion(">=", "1.17")) {
-                    registerCritereonField("SimpleCriterionTrigger", "players");
-                } else {
-                    registerCritereonField("SimpleCriterionTrigger", "a");
+                String fieldName = CommonBootstrap.evaluateMCVersion(">=", "1.17") ? "players" : "a";
+                if (!registerCritereonField("SimpleCriterionTrigger", fieldName) &&
+                        !registerCritereonField("CriterionTriggerSimple", fieldName)) {
+                    Logging.LOGGER.warning("Advancement criterion trigger class not found; advancement updates will be disabled");
                 }
                 return;
             }
@@ -175,7 +175,7 @@ public class AdvancementDataPlayerHook extends ClassHook<AdvancementDataPlayerHo
             }
         }
 
-        private void registerCritereonField(String criterionClassName, String fieldName) throws Throwable {
+        private boolean registerCritereonField(String criterionClassName, String fieldName) throws Throwable {
 
             String fullCriterionClassName;
             if (CommonBootstrap.evaluateMCVersion(">=", "1.21.11")) {
@@ -185,7 +185,7 @@ public class AdvancementDataPlayerHook extends ClassHook<AdvancementDataPlayerHo
             }
             Class<?> type = CommonUtil.getClass(fullCriterionClassName);
             if (type == null) {
-                throw new IllegalStateException("Failed to find criterion: " + criterionClassName);
+                return false;
             }
 
             java.lang.reflect.Field refMapField = Resolver.resolveAndGetDeclaredField(type, fieldName);
@@ -223,6 +223,7 @@ public class AdvancementDataPlayerHook extends ClassHook<AdvancementDataPlayerHo
                     map.put(newPlayerAdvancements, currPlayerData);
                 }
             });
+            return true;
         }
 
         public void hook(Player player) {
